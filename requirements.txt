@@ -1,0 +1,2 @@
+# Core collection and SSH formal-checking tools; local analysis is mostly stdlib.
+paramiko>=3,<5

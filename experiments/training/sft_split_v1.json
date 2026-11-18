@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "seed": 42,
+  "description": "Design-level SFT split; L3/3 excluded, L3/5 and L3/6 reserved for test. Other assignments were shuffled within levels with seed 42; test_endian was reserved for test as discussed.",
+  "excluded": {
+    "L3/3": "Explicitly excluded by the user while its formal-context work is unfinished."
+  },
+  "pending_allowed": ["L3/6"],
+  "train": [
+    "L1/PIC_8259", "L1/VGA_SG", "L1/WB_stage", "L1/aeMB2_xslif",
+    "L1/ag6502_decimal", "L1/equivalence_resolver", "L1/eth_clockgen",
+    "L1/usbh_crc16", "L1/wbwatchdog",
+    "L2/10", "L2/12", "L2/13", "L2/2", "L2/3", "L2/5", "L2/6", "L2/8", "L2/9",
+    "L3/1", "L3/11", "L3/12", "L3/13", "L3/14", "L3/4"
+  ],
+  "validation": ["L1/Piezo_Driver", "L2/1", "L2/4", "L3/10", "L3/2"],
+  "test": ["L1/test_endian", "L1/zipjiffies", "L2/7", "L3/5", "L3/6"]
+}

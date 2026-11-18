@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "seed": 42,
+  "description": "Agreed design-level 25/5/5 split: training L1=9, L2=9, L3=7. L3/3 is included only through its separate corrected-clock proof and complete related-cover recheck. Existing holdouts are preserved; L3/6 remains pending test.",
+  "excluded": {},
+  "pending_allowed": [
+    "L3/6"
+  ],
+  "train": [
+    "L1/PIC_8259",
+    "L1/VGA_SG",
+    "L1/WB_stage",
+    "L1/aeMB2_xslif",
+    "L1/ag6502_decimal",
+    "L1/equivalence_resolver",
+    "L1/eth_clockgen",
+    "L1/usbh_crc16",
+    "L1/wbwatchdog",
+    "L2/10",
+    "L2/12",
+    "L2/13",
+    "L2/2",
+    "L2/3",
+    "L2/5",
+    "L2/6",
+    "L2/8",
+    "L2/9",
+    "L3/1",
+    "L3/11",
+    "L3/12",
+    "L3/13",
+    "L3/14",
+    "L3/4",
+    "L3/3"
+  ],
+  "validation": [
+    "L1/Piezo_Driver",
+    "L2/1",
+    "L2/4",
+    "L3/10",
+    "L3/2"
+  ],
+  "test": [
+    "L1/test_endian",
+    "L1/zipjiffies",
+    "L2/7",
+    "L3/5",
+    "L3/6"
+  ],
+  "design_quotas": {
+    "train": {
+      "L1": 9,
+      "L2": 9,
+      "L3": 7
+    },
+    "validation": {
+      "L1": 1,
+      "L2": 2,
+      "L3": 2
+    },
+    "test": {
+      "L1": 2,
+      "L2": 1,
+      "L3": 2
+    }
+  },
+  "source_overrides": {
+    "L3/3": "output/fixme_svagen/audits/L3_3_sft_vacuity_v2/case.sft_rechecked.json"
+  }
+}

@@ -1,0 +1,1 @@
+{"requirement_id":"LATENCY","failure":"Complete one cycle early","source_file":"tiny_counter.sv","old":"count <= 2'd2;","new":"count <= 2'd1;","expected_observation":"done goes high on the third cycle after a request","rationale":"The loaded counter determines how many active cycles precede completion."}

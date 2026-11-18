@@ -1,0 +1,59 @@
+# Private configuration and local environments
+.env
+.env.*
+!.env.example
+oldkeys
+.venv/
+venv/
+.agents/
+.aws/
+.codex/
+
+# Python/tool caches and generated executables
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.vvp
+
+# Local raw evidence and historical workspaces
+/archive/
+/output
+/mutation_lab/runs/
+/mutation_lab/reports/
+/legacy/sangam/books/
+/legacy/sangam/datasets/
+/legacy/sangam/LLMOutput/
+/legacy/sangam/TempOutput/
+/legacy/sangam/FinalOutputs/
+/legacy/sangam/JasperGold_Logs/
+/legacy/sangam/output/
+/legacy/sangam/i2c/
+/legacy/sangam/rv/
+/legacy/sangam/*.zip
+
+# Large frozen inputs are included explicitly by the submission packager
+/data/sft/*.jsonl
+/data/kto/*.jsonl
+/data/evaluation/*.jsonl
+
+# Local builds and submission archives
+/dist/
+/logs/
+/outputs/
+reports/**/build/
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.out
+
+# Code-only GitHub publication: local datasets and documents remain private artifacts
+/docs/
+/data/
+/results/
+/reports/
+/legacy/

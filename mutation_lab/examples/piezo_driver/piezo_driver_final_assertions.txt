@@ -1,0 +1,93 @@
+Piezo_Driver: retained SANGAM assertions
+FIXME SVAGen Text / L1/Piezo_Driver
+Model: deepseek-ai/DeepSeek-V4-Flash-0731
+Refinement iterations: 4
+Assertion count: 17
+
+Each entry is an independent snippet. Named assertions include the
+matching property definition from the saved final SANGAM response.
+The assertion statements themselves are preserved exactly.
+Numbers in [brackets] are the original source row numbers.
+
+[002] Signals: clock
+property clock_free_running;
+  @(posedge clock)
+  s_eventually clock == 1'b0;
+endproperty
+assert property (clock_free_running);
+
+[041] Signals: data, compare
+property count_increment;
+  @(posedge clock)
+  !reset && !Write && (count != compare) |=> count == (($past(count) + 1) % 2**24);
+endproperty
+assert property (count_increment);
+
+[048] Signals: data
+property piezo_off_when_disabled;
+  @(posedge clock)
+  !reset && !enabled |=> Piezo == 0;
+endproperty
+assert property (piezo_off_when_disabled);
+
+[056] Signals: Write
+assert property (@(posedge clock) reset |-> ##1 !Ack);
+
+[060] Signals: Write
+assert property (@(posedge clock) reset |-> ##1 count == 0);
+
+[061] Signals: Write
+assert property (@(posedge clock) reset |-> ##1 compare == 0);
+
+[064] Signals: Write
+assert property (@(posedge clock) (count == compare) && !reset |-> ##1 count == 0);
+
+[065] Signals: Write
+assert property (@(posedge clock) Write && !reset |-> ##1 Ack);
+
+[082] Signals: Write
+assert property (@(posedge clock) reset |-> ##1 Piezo == 0);
+
+[083] Signals: Write
+assert property (@(posedge clock) (count != compare) && enabled && !reset |-> ##1 Piezo == $past(Piezo));
+
+[097] Signals: Ack
+assert property (@(posedge clock) !Write && !reset |=> !Ack);
+
+[127] Signals: compare
+property compare_write_update;
+  @(posedge clock) (Write && !reset) |=> (compare == $past(data[23:0]));
+endproperty
+assert property (compare_write_update);
+
+[129] Signals: compare
+property compare_hold;
+  @(posedge clock) (!Write && !reset) |=> ($stable(compare));
+endproperty
+assert property (compare_hold);
+
+[130] Signals: compare
+property enabled_write_update;
+  @(posedge clock) (Write && !reset) |=> (enabled == $past(data[24]));
+endproperty
+assert property (enabled_write_update);
+
+[133] Signals: compare
+property enabled_hold;
+  @(posedge clock) (!Write && !reset) |=> ($stable(enabled));
+endproperty
+assert property (enabled_hold);
+
+[142] Signals: enabled
+property enabled_reset_on_reset;
+  @(posedge clock)
+  reset |=> enabled == 0;
+endproperty
+assert property (enabled_reset_on_reset);
+
+[144] Signals: enabled
+property piezo_toggle_when_enabled;
+  @(posedge clock)
+  enabled && (count == compare) && !reset |=> Piezo == !$past(Piezo);
+endproperty
+assert property (piezo_toggle_when_enabled);

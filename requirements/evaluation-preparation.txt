@@ -1,0 +1,5 @@
+# Optional upstream-source/specification preparation, separate from frozen-data use.
+-r ../requirements.txt
+PyMuPDF
+PyYAML
+hjson

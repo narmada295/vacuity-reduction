@@ -1,0 +1,60 @@
+### 1. Module Name
+
+The name of the RTL module is `Piezo_Driver`.
+
+### 2. Module Functions
+
+The `Piezo_Driver` module is designed to control a piezoelectric transducer (referred to as "Piezo" in the context of this module). Its primary functions include generating a signal to drive the piezo based on input parameters, acknowledging write operations, and managing the timing of the piezo signal based on a configurable duration. This module plays a crucial role in systems requiring precise control over piezoelectric elements, such as in acoustic applications, precision positioning systems, or haptic feedback mechanisms.
+
+### 3. Input and Output Port Descriptions
+
+- **Inputs:**
+  - `clock`: A clock signal (input, single bit). This signal is essential for the sequential logic within the module, driving the timing and state transitions.
+  - `reset`: A reset signal (input, single bit). When asserted, it initializes the module's internal state, including counters and control flags.
+  - `data`: A 25-bit input data bus. The lower 24 bits (`data[23:0]`) specify the duration for which the piezo signal should be active or inactive, while the most significant bit (`data[24]`) enables or disables the piezo output.
+  - `Write`: A write enable signal (input, single bit). When asserted, it indicates that new data is available on the `data` input for the module to process.
+
+- **Outputs:**
+  - `Ack`: An acknowledgment signal (output, single bit, registered). This signal is asserted in the cycle following a write operation to indicate that the write has been successfully processed.
+  - `Piezo`: The piezo control signal (output, single bit, registered). This signal drives the piezoelectric transducer based on the configured parameters and timing.
+
+### 4. Internal Working Principle
+
+The `Piezo_Driver` module operates based on a simple yet effective timing mechanism governed by a counter (`count`) and a comparison value (`compare`). The core idea is to toggle the `Piezo` output signal at intervals specified by the input data, thereby controlling the piezo device with precise timing.
+
+- **Counter and Comparison**: At each positive edge of the `clock`, the `count` register increments unless it matches the `compare` value, in which case it resets to 0. The `compare` register is updated with new data from the `data` input whenever a write operation occurs (signaled by the `Write` input).
+
+- **Piezo Signal Generation**: The `Piezo` output toggles when the `count` equals the `compare` value, provided the piezo is enabled (as indicated by the most significant bit of the `data` input). This creates a square wave with a period defined by the `data` input, driving the piezo transducer.
+
+- **Enable Control and Reset**: The piezo output can be enabled or disabled through the `data` input. A reset operation (triggered by the `reset` input) initializes the module's state, including disabling the piezo output and resetting the counter and comparison values.
+
+- **Acknowledgment**: The module acknowledges write operations by asserting the `Ack` output in the cycle following a write, signaling that the new configuration has been accepted and is being processed.
+
+### 5. Implementation Logic Explanation
+
+The `Piezo_Driver` module is designed to control a piezoelectric transducer (referred to as "Piezo" in the module) based on input parameters. It operates synchronously with an external clock signal and can be reset or reconfigured through its inputs. The module's primary functions include setting the duration for which the Piezo signal is active and enabling or disabling the Piezo output. The core logic of the module is encapsulated within an `always` block that triggers on the rising edge of the clock signal, ensuring synchronous operation.
+
+**Sequential Logic:**
+
+- **Counter (`count`):** A 24-bit counter increments with each clock cycle until it matches a comparison value. It resets to 0 either when the module is reset or when it equals the comparison value, creating a cyclic timer whose period is defined by the comparison value.
+- **Comparison Value (`compare`):** This 24-bit value determines the cycle period of the `count`. It can be updated on a write operation, allowing dynamic adjustment of the Piezo signal's active duration.
+- **Enable Flag (`enabled`):** A single-bit flag that enables or disables the Piezo output. It is updated on a write operation with the most significant bit of the input data.
+
+**Combinational Logic:**
+
+- **Piezo Signal Toggle:** The Piezo output toggles (changes state) when the counter matches the comparison value, provided the Piezo is enabled and the module is not in reset. This creates a square wave with a frequency determined by the comparison value.
+- **Acknowledgment Signal (`Ack`):** An acknowledgment signal that indicates a successful write operation. It is asserted (set high) in the clock cycle following a write operation and deasserted following a reset.
+
+### 6. Internally Defined Signal Descriptions
+
+- **`count` (24-bit Register):** Serves as a cyclic timer, incrementing with each clock cycle and resetting when it matches the `compare` value or when the module is reset. It essentially tracks the elapsed time in fixed units determined by the clock frequency.
+
+- **`compare` (24-bit Register):** Holds the value against which the `count` is compared. When `count` equals `compare`, it triggers certain actions within the module, such as toggling the Piezo output. This value is set based on the lower 24 bits of the input `data` during a write operation.
+
+- **`enabled` (1-bit Register):** A control flag that enables or disables the Piezo output. When set, the Piezo output can toggle based on the `count` and `compare` logic. It is updated based on the most significant bit of the input `data` during a write operation.
+
+- **`Piezo` (Output Register):** The output signal that drives the piezoelectric transducer. Its state can toggle when the module is enabled, and the `count` matches the `compare` value, creating a square wave output.
+
+- **`Ack` (Output Register):** An acknowledgment signal that indicates a write operation has been successfully received and processed. It is asserted in the clock cycle following a write operation and deasserted on a reset.
+
+This module's design allows for flexible control of a piezoelectric transducer with adjustable frequency and duty cycle, based on the `compare` value and the enable state. The use of synchronous logic ensures stable and predictable operation, critical for applications requiring precise timing and control, such as in acoustic actuators or precision movement control in micro-electromechanical systems (MEMS).

@@ -1,0 +1,6 @@
+// VGA_SG output ports initialized in the module header need explicit widths
+// for the free-trace miter declaration parser.
+logic [9:0] hcount;
+logic hblnk;
+logic [9:0] vcount;
+logic vblnk;

@@ -1,0 +1,3 @@
+A request is accepted when start is high and the counter is idle.
+After an accepted request, done must remain low for three clock cycles and
+must be high on the fourth clock cycle. Reset cancels a request.

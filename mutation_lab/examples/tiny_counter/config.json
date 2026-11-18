@@ -1,0 +1,32 @@
+{
+  "design_root": "rtl",
+  "sources": ["tiny_counter.sv"],
+  "include_dirs": ["."],
+  "top": "tiny_counter",
+  "clock": "clk",
+  "reset": "rst_n",
+  "spec_file": "spec.txt",
+  "requirements": [
+    {
+      "id": "LATENCY",
+      "text": "After an accepted request, done stays low for three cycles and is high on the fourth.",
+      "oracle": "ORACLE_LATENCY",
+      "reach": "REACH_REQUEST"
+    }
+  ],
+  "oracle_file": "oracle.sv",
+  "evaluation_file": "eval.sv",
+  "evaluation_names": ["EVAL_NO_EARLY_DONE"],
+  "planner": {
+    "endpoint": "https://api.tokenfactory.nebius.com/v1/chat/completions",
+    "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "key_env": "NEBIUS_API_KEY1",
+    "env_file": "../../../.env",
+    "extra_body": {"chat_template_kwargs": {"thinking": false}}
+  },
+  "jasper": {
+    "mode": "ssh",
+    "env_file": "../../../.env",
+    "timeout_seconds": 180
+  }
+}
